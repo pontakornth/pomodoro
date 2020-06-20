@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <h1>Pomodoro Timer</h1>
+    <Timer />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import Timer from './components/Timer.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    Timer,
   },
 })
 export default class App extends Vue {}
