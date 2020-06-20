@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <h1>Pomodoro Timer</h1>
   </div>
 </template>
 
@@ -16,3 +15,9 @@ import HelloWorld from './components/HelloWorld.vue';
 })
 export default class App extends Vue {}
 </script>
+
+<style lang="postcss">
+#app {
+  @apply flex justify-center items-center min-h-screen bg-green-400 text-gray-300;
+}
+</style>
