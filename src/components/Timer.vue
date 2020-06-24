@@ -74,6 +74,7 @@ export default class Timer extends Vue {
 }
 .tab-button:disabled {
   cursor: not-allowed;
+  @apply bg-green-300 text-gray-100;
 }
 .timer-button {
   @apply bg-gray-100 text-green-600 p-2 px-8 rounded-full;
