@@ -1,56 +1,97 @@
 <template>
   <div class="timer">
     <div class="tabs">
-      <button @click="changeMode(0)" :disabled="isStarted" class="tab-button">Work</button>
-      <button @click="changeMode(1)" :disabled="isStarted" class="tab-button">Short Break</button>
-      <button @click="changeMode(2)" :disabled="isStarted" class="tab-button">Long Break</button>
+      <button
+         @click="changeMode('work')"
+         :disabled="timerState == 'running'"
+         class="tab-button">
+         Work
+      </button>
+      <button
+          @click="changeMode('shortbreak')"
+          :disabled="timerState == 'running'"
+          class="tab-button">
+          Short Break
+      </button>
+      <button
+          @click="changeMode('longbreak')"
+          :disabled="timerState == 'running'"
+          class="tab-button">
+          Long Break
+      </button>
     </div>
     <h1>Work</h1>
     <h2 class="time">{{minutes}}:{{seconds}}</h2>
-    <button @click="timerStart" class="timer-button">{{actionButton}}</button>
+    <button @click="handleClick" class="timer-button">{{actionButton}}</button>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 
+type TimerState = 'stop' | 'start' | 'running';
+type TimerMode = 'work' | 'shortbreak' | 'longbreak';
+
 @Component
 export default class Timer extends Vue {
-  isStarted: boolean = false;
+  timerState: TimerState = 'start';
+
+  timerMode: TimerMode = 'work';
 
   timeLeft: number = 25 * 60 ;
 
   timer: number | undefined = undefined;
 
-  changeMode(mode: number): void {
-    if (mode === 0) {
+  changeMode(mode: TimerMode): void {
+    if (mode === 'work') {
       this.timeLeft = 25 * 60;
-    } else if (mode === 1) {
+    } else if (mode === 'shortbreak') {
       this.timeLeft = 5 * 60;
-    } else if (mode === 2) {
+    } else if (mode === 'longbreak') {
       this.timeLeft = 15 * 60;
     }
+    this.timerMode = mode;
   }
 
-  timerStart(): void {
-    if (this.isStarted) {
+  triggerTimer(): void {
+    if (this.timerState === 'running') {
       clearInterval(this.timer);
-      this.isStarted = !this.isStarted;
+      this.timerState = 'start';
       return;
     }
-    this.isStarted = !this.isStarted;
+    this.timerState = 'running';
     this.timer = setInterval(() => {
       if (this.timeLeft <= 0) {
         clearInterval(this.timer);
-        this.isStarted = false;
+        this.timerState = 'stop';
         return;
       }
       this.timeLeft -= 1;
     }, 1000);
   }
 
+  handleClick(): void {
+    if (this.timerState === 'stop') {
+      this.resetTimer();
+    } else {
+      this.triggerTimer();
+    }
+  }
+
+  resetTimer(): void {
+    this.timerState = 'start';
+    this.changeMode(this.timerMode);
+  }
+
   get actionButton(): string {
-    return this.isStarted ? 'STOP' : 'START';
+    switch (this.timerState) {
+      case 'start':
+        return 'START';
+      case 'stop':
+        return 'RESET';
+      default:
+        return 'STOP';
+    }
   }
 
   get minutes(): string {
