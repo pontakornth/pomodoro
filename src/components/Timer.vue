@@ -1,9 +1,9 @@
 <template>
   <div class="timer">
     <div class="tabs">
-      <button :disabled="isStarted" class="tab-button">Work</button>
-      <button :disabled="isStarted" class="tab-button">Short Break</button>
-      <button :disabled="isStarted" class="tab-button">Long Break</button>
+      <button @click="changeMode(0)" :disabled="isStarted" class="tab-button">Work</button>
+      <button @click="changeMode(1)" :disabled="isStarted" class="tab-button">Short Break</button>
+      <button @click="changeMode(2)" :disabled="isStarted" class="tab-button">Long Break</button>
     </div>
     <h1>Work</h1>
     <h2 class="time">{{minutes}}:{{seconds}}</h2>
@@ -21,6 +21,16 @@ export default class Timer extends Vue {
   timeLeft: number = 25 * 60 ;
 
   timer: number | undefined = undefined;
+
+  changeMode(mode: number): void {
+    if (mode === 0) {
+      this.timeLeft = 25 * 60;
+    } else if (mode === 1) {
+      this.timeLeft = 5 * 60;
+    } else if (mode === 2) {
+      this.timeLeft = 15 * 60;
+    }
+  }
 
   timerStart(): void {
     if (this.isStarted) {
