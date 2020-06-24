@@ -25,7 +25,27 @@ describe('Timer', () => {
     const timer = shallowMount(Timer);
     timer.find('.timer-button').trigger('click');
 
-    jest.advanceTimersByTime(25 * 60 * 1000);
+    jest.advanceTimersByTime(26 * 60 * 1000);
     expect(timer.find('.time').text()).not.toMatch('-');
+  });
+  it("can't change mode unless time is stopped", () => {
+    const timer = shallowMount(Timer);
+    timer.find('.timer-button').trigger('click');
+
+    const allTabButtons = timer.findAll('.tab-button');
+    expect(allTabButtons.at(0).attributes('disabled')).toBe('disabled');
+    expect(allTabButtons.at(1).attributes('disabled')).toBe('disabled');
+    expect(allTabButtons.at(2).attributes('disabled')).toBe('disabled');
+  });
+  it('can change mode', () => {
+    const timer = shallowMount(Timer);
+
+    const allTabButtons = timer.findAll('.tab-button');
+    allTabButtons.at(1).trigger('click');
+    expect(timer.find('.time').text()).toBe('05:00');
+    allTabButtons.at(2).trigger('click');
+    expect(timer.find('.time').text()).toBe('15:00');
+    allTabButtons.at(0).trigger('click');
+    expect(timer.find('.time').text()).toBe('25:00');
   });
 });

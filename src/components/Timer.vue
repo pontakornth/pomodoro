@@ -1,9 +1,9 @@
 <template>
   <div class="timer">
     <div class="tabs">
-      <button class="tab-button">Work</button>
-      <button class="tab-button">Short Break</button>
-      <button class="tab-button">Long Break</button>
+      <button :disabled="isStarted" class="tab-button">Work</button>
+      <button :disabled="isStarted" class="tab-button">Short Break</button>
+      <button :disabled="isStarted" class="tab-button">Long Break</button>
     </div>
     <h1>Work</h1>
     <h2 class="time">{{minutes}}:{{seconds}}</h2>
@@ -32,6 +32,7 @@ export default class Timer extends Vue {
     this.timer = setInterval(() => {
       if (this.timeLeft <= 0) {
         clearInterval(this.timer);
+        this.isStarted = false;
         return;
       }
       this.timeLeft -= 1;
@@ -60,6 +61,9 @@ export default class Timer extends Vue {
 }
 .tab-button {
   @apply bg-green-400 text-gray-100 p-2 rounded-full mx-4;
+}
+.tab-button:disabled {
+  cursor: not-allowed;
 }
 .timer-button {
   @apply bg-gray-100 text-green-600 p-2 px-8 rounded-full;
