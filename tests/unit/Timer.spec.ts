@@ -21,12 +21,16 @@ describe('Timer', () => {
     jest.advanceTimersByTime(1000);
     expect(timer.find('.time').text()).toBe('24:59');
   });
-  it("doesn't count to negative", () => {
+  it("doesn't count to negative and allow reset", () => {
     const timer = shallowMount(Timer);
     timer.find('.timer-button').trigger('click');
 
     jest.advanceTimersByTime(26 * 60 * 1000);
     expect(timer.find('.time').text()).not.toMatch('-');
+
+    expect(timer.find('.timer-button').text()).toBe('RESET');
+    timer.find('.timer-button').trigger('click');
+    expect(timer.find('.time').text()).toBe('25:00');
   });
   it("can't change mode unless time is stopped", () => {
     const timer = shallowMount(Timer);
