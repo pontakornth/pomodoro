@@ -55,12 +55,16 @@ export default class Timer extends Vue {
   }
 
   changeMode(mode: TimerMode): void {
-    if (mode === 'work') {
-      this.timeLeft = 25 * 60;
-    } else if (mode === 'shortbreak') {
-      this.timeLeft = 5 * 60;
-    } else if (mode === 'longbreak') {
-      this.timeLeft = 15 * 60;
+    switch (mode) {
+      case 'longbreak':
+        this.timeLeft = 15 * 60;
+        break;
+      case 'shortbreak':
+        this.timeLeft = 5 * 60;
+        break;
+      default:
+        this.timeLeft = 25 * 60;
+        break;
     }
     this.timerMode = mode;
   }
