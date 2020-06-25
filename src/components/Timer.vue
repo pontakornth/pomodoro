@@ -22,7 +22,7 @@
     </div>
     <h1>{{displayMode[timerMode]}}</h1>
     <h2 class="time">{{minutes}}:{{seconds}}</h2>
-    <button @click="handleClick" class="timer-button">{{actionButton}}</button>
+    <button @click="handleClick" class="timer-button">{{displayActionButton[timerState]}}</button>
   </div>
 </template>
 
@@ -41,6 +41,12 @@ export default class Timer extends Vue {
   timeLeft: number = 25 * 60 ;
 
   timer: number | undefined = undefined;
+
+  displayActionButton: object = {
+    start: 'START',
+    stop: 'RESET',
+    running: 'STOP',
+  }
 
   displayMode: object = {
     work: 'Work',
@@ -93,16 +99,6 @@ export default class Timer extends Vue {
     this.changeMode(this.timerMode);
   }
 
-  get actionButton(): string {
-    switch (this.timerState) {
-      case 'start':
-        return 'START';
-      case 'stop':
-        return 'RESET';
-      default:
-        return 'STOP';
-    }
-  }
 
   get minutes(): string {
     const minutes = Math.floor(this.timeLeft / 60);
