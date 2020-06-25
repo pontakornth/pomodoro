@@ -20,7 +20,7 @@
           Long Break
       </button>
     </div>
-    <h1>Work</h1>
+    <h1>{{displayMode[timerMode]}}</h1>
     <h2 class="time">{{minutes}}:{{seconds}}</h2>
     <button @click="handleClick" class="timer-button">{{actionButton}}</button>
   </div>
@@ -42,6 +42,12 @@ export default class Timer extends Vue {
 
   timer: number | undefined = undefined;
 
+  displayMode: object = {
+    work: 'Work',
+    shortbreak: 'Short Break',
+    longbreak: 'Long Break',
+  }
+
   changeMode(mode: TimerMode): void {
     if (mode === 'work') {
       this.timeLeft = 25 * 60;
@@ -62,6 +68,10 @@ export default class Timer extends Vue {
     this.timerState = 'running';
     this.timer = setInterval(() => {
       if (this.timeLeft <= 0) {
+        // eslint-disable-next-line global-require
+        const alarmSrc = require('../assets/alarm.mp3');
+        const alarm = new Audio(alarmSrc);
+        alarm.play();
         clearInterval(this.timer);
         this.timerState = 'stop';
         return;
