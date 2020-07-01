@@ -5,6 +5,7 @@
        <input type="text" name="name" placeholder="Programming..."/>
        <label for="pomodoroAmount">Amount of pomodoro estimated</label>
        <input type="number" name="pomodoroAmount" placeholder="1" />
+       <input type="submit" value="Add Task" class="submit-button" />
     </form>
     <div class="task-list">
        <div class="task-item">
